@@ -7,7 +7,7 @@ function App() {
   // Stores the AI response
   const [response, setResponse] = useState("");
 
-    // Shows loading while waiting for API
+  // Shows loading while waiting for API
   const [loading, setLoading] = useState(false);
 
   // Function to send message to backend
@@ -17,28 +17,30 @@ function App() {
 
     setLoading(true);
 
-    try{
-        const res = await fetch("http://localhost:8000/chat",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ 
-                message: message,
-             })
-        });
+    try {
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: message,
+        }),
+      });
 
-        const data = await res.json();
-        setResponse(JSON.stringify(data,null,2));
-        
-    }catch(error){
-        console.error("Error:", error);
-        setResponse("Error connecting to backend.");
+      const data = await res.json();
+
+      // Display full response
+      setResponse(JSON.stringify(data, null, 2));
+    } catch (error) {
+      console.error(error);
+      setResponse("Error connecting to backend.");
     }
-setLoading(false);
-    };
 
-    return (
+    setLoading(false);
+  };
+
+  return (
     <div
       style={{
         maxWidth: "800px",

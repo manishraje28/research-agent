@@ -1,4 +1,4 @@
-from langchain.agents import create_agent
+from langgraph.prebuilt import create_react_agent
 from langchain_groq import ChatGroq
 
 from tools import tools
@@ -9,7 +9,7 @@ llm = ChatGroq(
     api_key=GROQ_API_KEY
 )
 
-agent = create_agent(
+agent = create_react_agent(
     llm,
     tools
 )
