@@ -41,3 +41,6 @@ async def chat(req: ChatRequest):
 
     save_message("assistant", answer)
 
+    return {
+        "response": answer
+    }
