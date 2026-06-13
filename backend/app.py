@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from memory import save_message, get_history
+
 from graph import agent
+from memory import save_message, get_history
+from prompts import RESEARCH_SYSTEM_PROMPT
 
 app = FastAPI()
 
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,10 +18,12 @@ app.add_middleware(
 )
 
 
+# Request Model
 class ChatRequest(BaseModel):
     message: str
 
 
+# Home Route
 @app.get("/")
 def home():
     return {
@@ -26,14 +31,20 @@ def home():
     }
 
 
+# Chat Route
 @app.post("/chat")
 async def chat(req: ChatRequest):
 
     save_message("user", req.message)
 
+    messages = [
+        ("system", RESEARCH_SYSTEM_PROMPT),
+        *get_history(),
+    ]
+
     result = agent.invoke(
         {
-            "messages": get_history()
+            "messages": messages
         }
     )
 
