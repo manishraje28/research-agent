@@ -27,7 +27,7 @@ class ChatRequest(BaseModel):
 @app.get("/")
 def home():
     return {
-        "message": "Research Agent Running"
+        "message": "PropResearch AI Running"
     }
 
 
